@@ -2,7 +2,10 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from gi.repository import Gdk
-import urllib.parse
+try:
+    import urllib.parse as urllib_parse
+except ImportError:
+    import urllib as urllib_parse
 import terminatorlib.plugin as plugin
 import re
 
@@ -29,7 +32,7 @@ class SearchPlugin(plugin.Plugin):
         if not self.searchstring:
             return
         base_uri = "https://www.google.com/search?q=%s"
-        uri = base_uri % urllib.parse.quote(self.searchstring.encode("utf-8"))
+        uri = base_uri % urllib_parse.quote(self.searchstring.encode("utf-8"))
         gtk.show_uri(None, uri, Gdk.CURRENT_TIME)
         
     def callback(self, menuitems, menu, terminal):
